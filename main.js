@@ -2,9 +2,9 @@ const csv = require("csvtojson/v2");
 const { writeFile } = require('fs');
 const prompt = require('prompt-sync')();
 
-const userPrompt = () => prompt('Path to file: ');
+const userPrompt = () => prompt('Name of file: ');
 
-const convertCSV = (filePath) => csv().fromFile(filePath);
+const convertCSV = (fileName) => csv().fromFile(`./${fileName}`);
 
 const storeJSON = (data) => {
     const callback = (error) => {
@@ -21,8 +21,8 @@ const storeJSON = (data) => {
 
 const main = async () => {
     try {
-        const filePath = userPrompt();
-        const data = await convertCSV(filePath);
+        const fileName = userPrompt();
+        const data = await convertCSV(fileName);
         storeJSON(data);
     } catch (e) {
         throw new Error(e);
