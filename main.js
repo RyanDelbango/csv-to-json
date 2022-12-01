@@ -4,28 +4,29 @@ const prompt = require('prompt-sync')();
 
 const userPrompt = () => prompt('Name of file: ');
 
-const convertCSV = (fileName) => csv().fromFile(`./${fileName}`);
+const convertCSV = (fileName) => csv().fromFile(`./${fileName}.csv`);
 
-const storeJSON = (data) => {
+const storeJSON = (fileName, data) => {
+    const path = `./${fileName}-output.json`;
     const callback = (error) => {
         if (error) {
             console.log('Error: ', error);
         } else {
-            console.log('JSON data stored as output.json');
+            console.log('Data stored as json file.');
         }
       };
 
-    const path = './output.json';
     writeFile(path, JSON.stringify(data, null, 2), (error) => callback(error));
 };
 
 const main = async () => {
+    let fileName = userPrompt();
+    fileName = fileName.split('.')[0];
     try {
-        const fileName = userPrompt();
         const data = await convertCSV(fileName);
-        storeJSON(data);
+        storeJSON(fileName, data);
     } catch (e) {
-        throw new Error(e);
+        throw new Error(`File '${fileName}.csv' does not exist in this directory.`);
     }
 };
 
