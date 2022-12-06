@@ -24,7 +24,7 @@ const storeJSON = (fileName, data) => {
 
 const main = async () => {
     let fileName = userPrompt();
-    fileName = fileName.split('.')[0];
+    fileName = fileName.split('.csv')[0];
     try {
         const data = await convertCSV(fileName);
         storeJSON(fileName, data);
